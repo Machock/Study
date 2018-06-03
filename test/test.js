@@ -1,51 +1,23 @@
-describe("jQuery", function() {
-  it("should have jQuery", function() {
-    if (!window.jQuery) {
-      throw new Error("查看下 karma.conf.js 配置项 files 是否正确");
-    }
-  });
+describe('unit test for quz.js', function () {
 
-  it("should able to get a body", function() {
-    var $body = $("body");
-    $body.length.should.equal(1);
-    $body[0].should.equal(document.getElementsByTagName("body")[0]);
-  });
+    var A = List.list([4, 6, 7, 3, 8]),
+        B = List.list([3, 2, 5, 9]),
+        C = List.list([19, 8, 7, 3, 2]);
 
-  describe("should able to trigger an event", function() {
-    var ele;
-    before(function() {
-      ele = document.createElement("button");
-      document.body.appendChild(ele);
+    describe('#dcate()', function () {
+        it('should get a list consisting of elements of A followed by the elements of B', function () {
+        	A.toString().should.equal('[ 4 6 7 3 8 ]');
+            dcate(A, B).toString().should.equal('[ 4 6 7 3 8 3 2 5 9 ]');
+            A.toString().should.not.equal('[ 4 6 7 3 8 ]');
+        });
     });
 
-    it("should able trigger an event", function(done) {
-      $(ele)
-        .on("click", function() {
-          done();
-        })
-        .trigger("click");
+    describe('#sub()', function () {
+        it('should get the sublist consisting of LEN items from list L', function () {
+        	C.toString().should.equal('[ 19 8 7 3 2 ]');
+            sub(C, 3, 2).toString().should.equal('[ 3 2 ]');
+            C.toString().should.equal('[ 19 8 7 3 2 ]');
+        });
     });
 
-    after(function() {
-      document.body.removeChild(ele);
-      ele = null;
-    });
-  });
-
-  it("should able to request https://raw.githubusercontent.com/FE-star/exercise1/master/test/test.js", function(done) {
-    // 使用 jQuery.ajax 请求 https://raw.githubusercontent.com/FE-star/exercise1/master/test/test.js，并验证是否拿到文件
-    let url =
-      "https://raw.githubusercontent.com/FE-star/exercise1/master/test/test.js";
-    $.ajax({
-      type: "GET",
-      url: url
-    })
-      .done(res => {
-        done();
-      })
-      .fail(err => {
-        done();
-        throw err;
-      });
-  });
 });
